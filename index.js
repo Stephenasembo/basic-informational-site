@@ -13,6 +13,7 @@ const server = http.createServer((req, res) => {
   fs.readFile(filename, 'utf8', (err, data) => {
     if(err) {
       fs.readFile('./pages/404.html', 'utf8', (err, data) => {
+        res.writeHead(404, {'Content-Type': 'text/html'})
         res.write(data);
         res.end()
       })
