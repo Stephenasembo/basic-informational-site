@@ -14,9 +14,7 @@ function displayErrorPage() {
   })
 }
 
-app.get('/', (req, res) => {
-  console.log(req.path);
-  let filename = './pages/index.html'
+function displayContent(filename, res) {
   fs.readFile(filename, 'utf8', (err, data) => {
     if(err) {
       displayErrorPage();
@@ -26,32 +24,18 @@ app.get('/', (req, res) => {
     res.write(data)
     res.end()
   })
+}
+
+app.get('/', (req, res) => {
+  return displayContent('./pages/index.html', res)
 })
 
 app.get('/contact-me', (req, res) => {
-  let filename = './pages/contact-me.html'
-  fs.readFile(filename, 'utf8', (err, data) => {
-    if(err) {
-      displayErrorPage();
-      return;
-    }
-    res.writeHead(200, {'Content-Type': 'text/html'})
-    res.write(data)
-    res.end()
-  })
+  return displayContent(`./pages/${req.path}.html`, res)
 })
 
 app.get('/about', (req, res) => {
-  let filename = './pages/about.html'
-  fs.readFile(filename, 'utf8', (err, data) => {
-    if(err) {
-      displayErrorPage();
-      return;
-    }
-    res.writeHead(200, {'Content-Type': 'text/html'})
-    res.write(data)
-    res.end()
-  })
+  return displayContent(`./pages/${req.path}.html`, res)
 })
 
 app.listen(PORT);
