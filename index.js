@@ -1,6 +1,10 @@
+require('dotenv').config();
+
 const http = require('http')
 const fs = require('fs')
 const url = require('url')
+
+const PORT = process.env.PORT || 3000
 
 const server = http.createServer((req, res) => {
   let path = url.parse(req.url, true).path
@@ -25,4 +29,4 @@ const server = http.createServer((req, res) => {
   })
 })
 
-server.listen(8080);
+server.listen(PORT);
