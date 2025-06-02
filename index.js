@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const PORT = process.env.PORT || 3000
 
-function displayErrorPage() {
+function displayErrorPage(res) {
   fs.readFile('./pages/404.html', 'utf8', (err, data) => {
     res.writeHead(404, {'Content-Type': 'text/html'})
     res.write(data);
@@ -17,7 +17,7 @@ function displayErrorPage() {
 function displayContent(filename, res) {
   fs.readFile(filename, 'utf8', (err, data) => {
     if(err) {
-      displayErrorPage();
+      displayErrorPage(res);
       return;
     }
     res.writeHead(200, {'Content-Type': 'text/html'})
@@ -36,6 +36,10 @@ app.get('/contact-me', (req, res) => {
 
 app.get('/about', (req, res) => {
   return displayContent(`./pages/${req.path}.html`, res)
+})
+
+app.use((req, res) => {
+  return displayErrorPage(res);
 })
 
 app.listen(PORT);
